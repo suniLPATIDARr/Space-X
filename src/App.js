@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 
 function App() {
+  console.log('x')
   return (
     <div className="App">
       <Router>
