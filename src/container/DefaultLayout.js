@@ -1,13 +1,13 @@
 import React, { Component } from "react";
+import Years from '../components/Years'
+import Items from '../components/Article'
 import {
   Card,
   CardBody,
   CardHeader,
-  CardFooter,
   Button,
   Col,
   Row,
-  FormGroup,
   Label,
 } from "reactstrap";
 import ReactLoading from 'react-loading'
@@ -16,23 +16,6 @@ class DefaultLayout extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      years: [
-        2006,
-        2007,
-        2008,
-        2009,
-        2010,
-        2011,
-        2012,
-        2013,
-        2014,
-        2015,
-        2016,
-        2017,
-        2018,
-        2019,
-        2020,
-      ],
     };
   }
   componentDidMount = () => {
@@ -43,10 +26,10 @@ class DefaultLayout extends Component {
     this.setState({
       year,
     });
-    if (this.state.launch===true || this.state.launch===false) {
+    if (this.state.launch === true || this.state.launch === false) {
       url += "&launch_success=" + this.state.launch;
     }
-    if (this.state.land===true || this.state.land===false) {
+    if (this.state.land === true || this.state.land === false) {
       url += "&land_success" + this.state.land;
     }
     this.props.getData(url);
@@ -59,7 +42,7 @@ class DefaultLayout extends Component {
     if (this.state.year) {
       url += "&launch_year=" + this.state.year;
     }
-    if (this.state.land===true || this.state.land===false) {
+    if (this.state.land === true || this.state.land === false) {
       url += "&land_success" + this.state.land;
     }
     this.props.getData(url);
@@ -72,7 +55,7 @@ class DefaultLayout extends Component {
     if (this.state.year) {
       url += "&launch_year=" + this.state.year;
     }
-    if (this.state.launch===true || this.state.launch===false ) {
+    if (this.state.launch === true || this.state.launch === false) {
       url += "&launch_success" + this.state.launch;
     }
     this.props.getData(url);
@@ -81,67 +64,10 @@ class DefaultLayout extends Component {
     let buttonStyle = {
       margin: 5,
     };
-    let data = this.props.data.data.map((item, index) => {
-      return (
-        <li
-          style={{
-            listStyleType: "none",
-            display: "inline-block",
-            border: "1px solid #CBCED0",
-            padding: 5,
-            margin: 5,
-          }}
-        >
-          <article>
-            <img height={200} width={200} src={item.links.mission_patch}></img>
-            <h3></h3>
-            <Label>
-              <b>Mission Id`s :</b>
-            </Label>
-            <br />
-            <ul>
-              {item.mission_id.map((i) => (
-                <li>{i}</li>
-              ))}
-            </ul>
-            <Label>
-              <b>Launch Year :</b>
-              <span>{item.launch_year}</span>
-            </Label>
-            <br />
-            <Label>
-              <b>Successful Launch :</b>{" "}
-              <span>{item.launch_success?item.launch_success.toString():''}</span>
-            </Label>
-            <br />
-            <Label>
-              <b>Successful Landing :</b>{" "}
-              <span>
-                {item.rocket.first_stage.cores[0].land_success
-                  ? item.rocket.first_stage.cores[0].land_success.toString()
-                  : ""}
-              </span>
-            </Label>
-          </article>
-        </li>
-      );
-    });
-
-    let buttons = this.state.years.map((year) => {
-      return (
-        <Button
-          color={this.state.year === year ? "success" : "info"}
-          style={buttonStyle}
-          onClick={this.clickHandler.bind(this, year)}
-        >
-          {year}
-        </Button>
-      );
-    });
     return (
       <div className="container animated-fadein">
         <br />
-        <div style={{ border: "3px solid gray", padding: 20,background:'#F0F3F5' }}>
+        <div style={{ border: "3px solid gray", padding: 20, background: '#F0F3F5' }}>
           <Row>
             <Col>
               <CardHeader><h4>SpaceX Launch Program</h4></CardHeader>
@@ -156,7 +82,7 @@ class DefaultLayout extends Component {
             <Col md="3">
               <Card>
                 <CardHeader>Launch year</CardHeader>
-                <CardBody>{buttons}</CardBody>
+                <CardBody><Years year={this.state.year} clickHandler={this.clickHandler} /></CardBody>
                 <CardHeader>Successful Launch</CardHeader>
                 <CardBody>
                   <Button
@@ -193,17 +119,17 @@ class DefaultLayout extends Component {
                 </CardBody>
               </Card>
             </Col>
-            {this.props.data.status==='requesting'?
-        <ReactLoading type='spin' color='#138496' />:
-            <Col>
-              <ul>{data}</ul>
-              <Label>
-                <b>Developed by</b> : Sunil
-              </Label>
-            </Col>}
+            {this.props.data.status === 'requesting' ?
+              <ReactLoading type='spin' color='#138496' /> :
+              <Col>
+                <ul><Items {...this.props} /></ul>
+                <Label>
+                  <b>Developed by</b> : Sunil
+                </Label>
+              </Col>}
           </Row>
         </div>
-  </div>
+      </div>
     );
   }
 }
