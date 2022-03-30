@@ -16,6 +16,7 @@ const Article = (props) => {
           >
             <article>
               <img height={200} alt='loading' width={200} src={item.links.mission_patch}></img>
+              <br/>
               <Label>
                 <b>Mission Id`s :</b>
               </Label>
